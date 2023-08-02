@@ -1,0 +1,43 @@
+const mongoose = require('mongoose');
+
+const SystemSchema = new mongoose.Schema({
+    shortName: {type: String},
+    type: {type: String},
+    control_channels: [Number],
+    channels: [Number],
+    channelFile: {type: String},
+    modulation: {type: String},
+    squelch: {type: Number},
+    talkgroupsFile: {type: String},
+    apiKey: {type: String},
+    broadcastifyApiKey: {type: String},
+    broadcastifySystemId: {type: Number},
+    uploadScript: {type: String},
+    compessWav: {type: Boolean},
+    unitScript: {type: String},
+    audioArchiive: {type: Boolean},
+    transmissionArchive: {type: Boolean},
+    callLog: {type: Boolean},
+    analogLevels: {type: Number},
+    maxDev: {type: Number},
+    digitalLevels: {type: Number},
+    unitTagsFile: {type: String},
+    recordUnknown: {type: Boolean},
+    recordUUVCalls: {type: Boolean},
+    hideEncrypted: {type: Boolean},
+    hideUnknownTalkgroups: {type: Boolean},
+    minDiration: {type: Number},
+    minTransmissionDuration: {type: Number},
+    maxDuration: {type: Number},
+    talkgroupDisplayFormat: {type: String},
+    bandplan: {type: String},
+    bandplanBase: {type: Number},
+    bandplanHigh: {type: Number},
+    bandplanSpacing: {type: Number},
+    bandplanOffset: {type: Number},
+    decodeMDC: {type: Boolean},
+    decodeStar: {type: Boolean},
+    decodeTPS: {type: Boolean}
+});
+
+module.exports = SystemSchema; 
