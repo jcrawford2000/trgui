@@ -20,7 +20,7 @@ function SettingItem({setting}){
 
 function ToggleItem({setting}){
 
-    const [value, setValue] = useState('on')
+    const [value, setValue] = useState(setting.def_val)
     const [checked, setChecked] = useState(true)
     const [name, setName] = useState()
     
@@ -47,14 +47,14 @@ function ToggleItem({setting}){
                 </div>
             </label>
             <div className="ml-10">
-                <input id={setting.name} type="checkbox"  onClick={onChange} value={value} defaultChecked={checked} className="toggle toggle-info"  />
+                <input id={setting.name} type="checkbox"  onClick={onChange} value={value} defaultChecked={value === 'on' ? true : false} className="toggle toggle-info"  />
             </div>                    
         </div>
     )
 }
 
 function RangeItem({setting}){
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState(setting.def_val);
     const [name, setName] = useState(setting.name)
 
     const onChange = (event) => {
@@ -89,18 +89,17 @@ function TextItem({setting}){
 
     return(
         <div className="formControl">
-            <label className="label cursor-pointer join">
+            <label htmlFor={setting.name} className="label cursor-pointer join">
                 <span className="join-item label-text text-base dark:text-stone-200">
                     { setting.label }
                 </span>
                 <div className="tooltip tooltip-right" data-tip={setting.tooltip}>
                     <p className="join-item ml-2"><PiQuestionFill /></p>
-                </div>
-                
+                </div>                        
             </label>
-            <div className="ml-10">
-                <input type="text" value={value} onChange={onChange}  className="input input-bordered input-info w-full max-w-xs" />
-            </div>                    
+            <div className="ml-10 block">
+                    <input type="text" id={setting.name} value={value} onChange={onChange}  className="input input-bordered input-info w-full max-w-xs" />
+            </div>
         </div>
     )
 }
@@ -123,13 +122,13 @@ function RadioItem({setting}){
                     <p className="join-item ml-2"><PiQuestionFill /></p>
                 </div>
             </label>
-            <div className="ml-10">
+            <div className="ml-10" >
                 {  setting.options.map((option, index) => (
-                    <label className="cursor-pointer">
+                    <label key={index} className="cursor-pointer">
                         <span className="label-text mr-5 ml-5 align-top">
-                            {option}
+                            {option} 
                         </span>
-                        <input key={index} className="radio radio-info" name={setting.name} type="radio" value={option} onClick={onChange}/>
+                        <input key={index} className="radio radio-info" name={setting.name} type="radio" checked={setting.def_val.toUpperCase() === option.toUpperCase()? true:false} value={option} onChange={onChange}/>
                         
                     </label>
 
