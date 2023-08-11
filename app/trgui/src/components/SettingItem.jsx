@@ -110,6 +110,7 @@ function RadioItem({setting}){
     const onChange = (event) => {
         console.log("Change to " + event.target.name + " value=" + event.target.value)
         setValue(event.target.setValue)
+        event.target.checked = true
     }
 
     return(
@@ -128,7 +129,7 @@ function RadioItem({setting}){
                         <span className="label-text mr-5 ml-5 align-top">
                             {option} 
                         </span>
-                        <input key={index} className="radio radio-info" name={setting.name} type="radio" checked={setting.def_val.toUpperCase() === option.toUpperCase()? true:false} value={option} onChange={onChange}/>
+                        <input key={index} className="radio radio-info" name={setting.name} type="radio" defaultChecked={setting.def_val.toUpperCase() === option.toUpperCase()? true:false} value={option} onChange={onChange}/>
                         
                     </label>
 

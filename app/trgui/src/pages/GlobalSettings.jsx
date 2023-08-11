@@ -4,7 +4,7 @@ import axios from 'axios'
 import SettingsNav from '../components/SettingsNav'
 import SettingItem from '../components/SettingItem'
 
-function Settings() {
+function GlobalSettings() {
     const [settingsObj, updateSettingsObj] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const params = useParams();
@@ -44,6 +44,9 @@ function Settings() {
         <div className='lg:pl-[19.5rem]'>
             <div className='max-w-3xl mx-auto pt-10 xl:max-w-none xl:ml-0 xl:mr-[15.5rem] xl:pr-16'>
                 <header className='relative z-20'>
+                    <p className="group flex items-center lg:text-lg lg:leading-6 mb-4 font-semibold text-sky-500 dark:text-sky-400">
+                        Global Settings
+                    </p>
                     <SettingItem setting={
                         {
                             type:'radio', 
@@ -257,4 +260,4 @@ function Settings() {
     
 }
 
-export default Settings
+export default GlobalSettings
