@@ -8,6 +8,7 @@ function SettingItem({setting}){
         switch(setting.type) {
             case 'radio' : return <RadioItem setting={setting}/>;
             case 'text' : return <TextItem setting={setting}/>;
+            case 'textarea' : return <TextAreaItem setting={setting}/>;
             case 'range' : return <RangeItem setting={setting}/>;
             case 'toggle' : return <ToggleItem setting={setting}/>;            
         }
@@ -80,11 +81,44 @@ function RangeItem({setting}){
     )
 }
 
+function TextAreaItem({setting}){
+    const [value, setValue] = useState(setting.def_val)
+
+    const onChange = (event) => {
+        setValue(event.target.value.split('\n'))
+        //setting.onChange(event);
+    }
+
+    const formatTextArea = () => {
+        let testText = ''
+        value.forEach((element) => { testText += (element + "\n")})
+        return( testText)
+    }
+
+    return(
+        <div className="formControl">
+        <label htmlFor={setting.name} className="label cursor-pointer join">
+            <span className="join-item label-text text-base dark:text-stone-200">
+                { setting.label }
+            </span>
+            <div className="tooltip tooltip-right" data-tip={setting.tooltip}>
+                <p className="join-item ml-2"><PiQuestionFill /></p>
+            </div>                        
+        </label>
+        <div className="ml-10 block">
+                <textarea id={setting.name} rows={value.length} value={ formatTextArea() } onChange={onChange}  className="textarea textarea-bordered textarea-info w-full max-w-xs" />
+        </div>
+    </div> 
+    )
+}
+
+
 function TextItem({setting}){
     const [value, setValue] = useState(setting.def_val)
 
     const onChange = (event) => {
         setValue(event.target.value)
+        setting.onChange(event);
     }
 
     return(
@@ -105,14 +139,13 @@ function TextItem({setting}){
 }
 
 function RadioItem({setting}){
-    const [value, setValue] = useState()
+    const [value, setValue] = useState(setting.def_val)
 
     const onChange = (event) => {
         console.log("Change to " + event.target.name + " value=" + event.target.value)
-        setValue(event.target.setValue)
-        event.target.checked = true
+        setValue(event.target.value)
+        //event.target.checked = true
     }
-
     return(
         <div className="formControl">
             <label className="label cursor-pointer join">
@@ -124,16 +157,15 @@ function RadioItem({setting}){
                 </div>
             </label>
             <div className="ml-10" >
-                {  setting.options.map((option, index) => (
+                {  setting.options.map((option, index) => {
+                    return(
                     <label key={index} className="cursor-pointer">
+                        <input key={index} className="radio radio-info" name={setting.name} type="radio" defaultChecked={option.value === value? true:false} value={option.value} onChange={onChange}/>
                         <span className="label-text mr-5 ml-5 align-top">
-                            {option} 
+                            {option.label} 
                         </span>
-                        <input key={index} className="radio radio-info" name={setting.name} type="radio" defaultChecked={setting.def_val.toUpperCase() === option.toUpperCase()? true:false} value={option} onChange={onChange}/>
-                        
-                    </label>
-
-                ))}
+                    </label>)
+                })}
             </div>
         </div>
     )
