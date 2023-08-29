@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from 'react'
-import { SettingsContext } from '../context/SettingsContext'
+import { SettingsContext } from '../../context/SettingsContext'
 import SettingsNav from './SettingsNav'
-import System from './System';
+import Source from './Source';
 
 
-function Systems() {
+const Sources = () => {
   const { settings, fetchSettings } = useContext(SettingsContext)
 
   useEffect(() => {
@@ -16,17 +16,17 @@ function Systems() {
     return(<p>Loading...</p>)
   }
 
-  const systemAccordian = () => {
-    return settings.systems.map(sys => {
-      console.log("Creating according for system " + sys.shortName + " with ID " + sys._id)
+  const sourceAccordian = () => {
+    return settings.sources.map(src => {
+      console.log("Creating according for source " + src.shortName + " with ID " + src._id)
       return(
-        <div key={sys._id} className='collapse collapse-plus bg-base-20'>
+        <div key={src._id} className='collapse collapse-plus bg-base-20'>
           <input type='checkbox'  />
           <div className='collapse-title text-xl font-medium'>
-            {sys.shortName}
+            {src.shortName}
           </div>
           <div className='collapse-content'>
-            <System system_id={sys._id}/>
+            <Source source_id={src._id}/>
           </div>
         </div>
       )
@@ -40,11 +40,10 @@ function Systems() {
         <div className='max-w-3xl mx-auto pt-10 xl:max-w-none xl:ml-0 xl:mr-[15.5rem] xl:pr-16'>
             <header className='relative z-20'>
                 <p className="group flex items-center lg:text-lg lg:leading-6 mb-4 font-semibold text-sky-500 dark:text-sky-400">
-                    Systems
+                    Sources
                 </p>
             </header>
-            {systemAccordian()}
-            
+            {sourceAccordian()}
         </div>
     </div>    
     
@@ -52,4 +51,4 @@ function Systems() {
   )
 }
 
-export default Systems
+export default Sources

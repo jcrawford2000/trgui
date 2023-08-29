@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import SettingItem from './SettingItem';
 import { useState, useContext } from 'react'
-import { SettingsContext } from '../context/SettingsContext';
+import { SettingsContext } from '../../context/SettingsContext';
 
 /* eslint eqeqeq: 0 */
 const System = ({system_id}) => {

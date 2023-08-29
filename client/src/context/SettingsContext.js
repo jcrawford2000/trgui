@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useEffect } from 'react'
+import React, { createContext, useReducer, useState } from 'react'
 import axios from 'axios'
 import SettingsReducer from './SettingsReducer'
 
@@ -8,24 +8,29 @@ export const SettingsContext = createContext(initSettings)
 
 export const SettingsProvider = ({children}) => {
     const [state, dispatch] = useReducer(SettingsReducer, initSettings);
+    const [settingsLoaded, setSettingsLoaded] = useState(false)
 
     async function fetchSettings() {
-        try {
-            console.log("Fetching settings")
-            const res = await axios.get('http://sparrow.lan:5050/api/settings')
-            console.log(res.data[0])
-            dispatch({
-                type: 'GET_SETTINGS',
-                payload: res.data[0]
-                
-            })
-        } catch (err) {
-            dispatch({
-                type: 'SETTINGS_ERR',
-                payload: err
-            })
-        }
-           
+        if (!settingsLoaded){
+            try {
+                console.log("Fetching settings")
+                const res = await axios.get('http://sparrow.lan:5050/api/settings')
+                console.log(res.data[0])
+                dispatch({
+                    type: 'GET_SETTINGS',
+                    payload: res.data[0]
+                    
+                })
+                setSettingsLoaded(true)
+            } catch (err) {
+                dispatch({
+                    type: 'SETTINGS_ERR',
+                    payload: err
+                })
+            }
+        } else {
+            console.log("Settings already loaded.")
+        }   
     }
 
     function updateSettings(settings){
@@ -36,9 +41,11 @@ export const SettingsProvider = ({children}) => {
         })
     }
 
+
     return (
         <SettingsContext.Provider value={{
             settings: state.settings,
+            settingsLoaded,
             fetchSettings,
             updateSettings
         }}>

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const SourceSchema = new mongoose.Schema({
+    shortName: {type: String},
     center: {type: Number},
     rate: {type: Number},
     error: {type: Number},
