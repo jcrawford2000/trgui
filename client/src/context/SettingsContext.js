@@ -41,13 +41,32 @@ export const SettingsProvider = ({children}) => {
         })
     }
 
+    async function saveSettings(settings){
+        console.log("In SettingsContext, called saveSettings with settings=" + JSON.stringify(settings))
+        try {
+            console.log("Saving settings")
+            const res = await axios.put('http://sparrow.lan:5050/api/settings/'+settings._id, settings)
+            dispatch({
+                type: 'SAVE_SETTINGS',
+                payload: settings
+            })
+            setSettingsLoaded(true)
+        } catch (err) {
+            dispatch({
+                type: 'SETTINGS_ERR',
+                payload: err
+            })
+        }
+    }
+
 
     return (
         <SettingsContext.Provider value={{
             settings: state.settings,
             settingsLoaded,
             fetchSettings,
-            updateSettings
+            updateSettings, 
+            saveSettings
         }}>
             {children}
         </SettingsContext.Provider>

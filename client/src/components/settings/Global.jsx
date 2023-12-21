@@ -1,11 +1,12 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { SettingsContext } from '../../context/SettingsContext';
 import SettingsNav from './SettingsNav'
 import SettingItem from './SettingItem'
 
 /* eslint eqeqeq: 0 */
 const Global = () => {
-    const { settings, fetchSettings, updateSettings } = useContext(SettingsContext)
+    const { settings, fetchSettings, updateSettings, saveSettings } = useContext(SettingsContext)
+    const [ isChanged, setIsChanged ] = useState(true)
 
     useEffect(() => {
         fetchSettings()
@@ -17,6 +18,7 @@ const Global = () => {
     }
 
     function onSettingChange(e){
+        setIsChanged(false)
         let targetValue
         if (e.target.type=='checkbox') {
             targetValue = e.target.value.checked
@@ -32,6 +34,12 @@ const Global = () => {
         }
 
         updateSettings({...settings, [e.target.name]: targetValue})
+    }
+
+    function onSettingsSave(e){
+        e.preventDefault();
+        saveSettings(settings);
+        setIsChanged(true)
     }
 
   return (
@@ -83,7 +91,6 @@ const Global = () => {
                                 onChange: onSettingChange,
                                 tooltip:'tooltip4'
                             }}/>
-
                         <SettingItem setting={
                             {
                                 type:'toggle', 
@@ -197,7 +204,7 @@ const Global = () => {
                             {
                                 type:'text', 
                                 label:'Status Server URL1:', 
-                                name:'statserverurl', 
+                                name:'statusServer', 
                                 def_val:settings.statusServer != undefined || settings.statusServer != null ? settings.statusServer : 'ssurl' , 
                                 onChange: onSettingChange,
                                 tooltip:'tooltip4'
@@ -274,7 +281,9 @@ const Global = () => {
                                 def_val:settings.softVocoder != undefined || settings.softVocoder != null ? (settings.softVocoder ? 'on' : 'off') : 'off', 
                                 onChange: onSettingChange,
                                 tooltip:'tooltip4'
-                            }}/>    
+                            }}/> 
+                            <br/>
+                        <button className="btn btn-outline btn-info" disabled={isChanged?"disabled":""} onClick={onSettingsSave}>Save</button>   
                     </header>
                 </div>
             </div>

@@ -18,6 +18,12 @@ export default (state, action) => {
                 ...state,
                 settings: action.payload
             }
+        case 'SAVE_SETTINGS':
+            console.log('SAVE_SETTINGS: ' + JSON.stringify(action.payload))
+            return {
+                ...state,
+                settings: action.payload
+            }
         default:
             return state
     }
