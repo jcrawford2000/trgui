@@ -6,6 +6,7 @@
 
 const express = require('express');
 const cors = require('cors');
+const WebSocket = require('ws');
 const port = process.env.PORT || 5050;
 /*
     Pull in our connect to DB function from ./config/db.json
@@ -36,3 +37,71 @@ app.use('/api/settings', settings);
 
 // Now that we have everything setup, start the server
 app.listen(port, () => console.log(`Server is running on port ${port}`));
+
+console.log('Starting WebSocket');
+
+// Create a WebSocket Server
+const wss = new WebSocket.Server({ port: 8899, host: '0.0.0.0' });
+
+const clients = new Set();
+var systems = [];
+
+//Listen for connection
+wss.on('error', (a) => {
+    console.log("WS Error");
+});
+
+wss.on("listening", (a) => {
+    console.log("WSS Listening.");
+});
+
+wss.on('connection', (ws) => {
+    console.log("Received Connection");
+    //Add to clients Set
+    clients.add(ws);
+
+    //Handle Incoming Messages
+    ws.on('message', (data, isBinary) => {
+        const message = isBinary ? data: data.toString();
+        const msgJson = JSON.parse(message);
+
+        console.log(msgJson.type);
+        if (msgJson.type=='systems')
+        {
+            console.log("Got new systems");
+            systems = msgJson.systems;
+        }
+        if (msgJson.type=='getSystems')
+        {
+            var msg = {"type":"systems", "systems": systems}
+            ws.send(JSON.stringify(msg), {binary: isBinary});
+        }
+        clients.forEach((client) => {
+            if (client !== ws && client.readyState === WebSocket.OPEN) {
+                client.send(message, {binary: isBinary });
+            }
+        });
+        
+    });
+
+});
+
+console.log("Websocket Server Started.  Listening for incoming messages...");
+
+/*
+
+                    PRWC-J
+freq        talkgroup     talkgrouptag    elapsed
+769.86875   1795         K1 PHX Alarm    16
+
+{systemActivity:{
+    "PRWC-J":{
+        "769.86875":{
+            "talkgroup":"1795",
+            "talkgrouptag": "K1 PHX Alarm",
+            "elapsed": 16
+        }
+    }
+}}
+
+*/

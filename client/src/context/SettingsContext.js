@@ -14,7 +14,7 @@ export const SettingsProvider = ({children}) => {
         if (!settingsLoaded){
             try {
                 console.log("Fetching settings")
-                const res = await axios.get('http://sparrow.lan:5050/api/settings')
+                const res = await axios.get('http://localhost:5050/api/settings')
                 console.log(res.data[0])
                 dispatch({
                     type: 'GET_SETTINGS',
@@ -45,7 +45,7 @@ export const SettingsProvider = ({children}) => {
         console.log("In SettingsContext, called saveSettings with settings=" + JSON.stringify(settings))
         try {
             console.log("Saving settings")
-            const res = await axios.put('http://sparrow.lan:5050/api/settings/'+settings._id, settings)
+            const res = await axios.put('http://localhost:5050/api/settings/'+settings._id, settings)
             dispatch({
                 type: 'SAVE_SETTINGS',
                 payload: settings
