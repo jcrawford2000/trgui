@@ -25,6 +25,7 @@ function Header() {
         <li><a href="/">Home</a></li>
         <li><a href="/stats">Stats</a></li>
         <li><a href="/settings">Config</a></li>
+        <li><a href="/active">Active Incidents</a></li>
       </ul>
     </div>
   </div>
