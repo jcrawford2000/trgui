@@ -8,6 +8,7 @@ import Events from './stats/Events';
 import StatsProvider from './context/StatsContext';
 import StatsWebSocket from './stats/StatsWebSocket';
 import Home from './components/Home';
+import ActiveIncidents from './components/ActiveIncidents';
 
 //Main App Component
 function App() {
@@ -26,6 +27,7 @@ function App() {
                         <Route path="/settings/global" element={<SettingsProvider><Global/></SettingsProvider>} />
                         <Route path="/settings/sources" element={<SettingsProvider><Sources/></SettingsProvider>} />
                         <Route path="/settings/systems" element={<SettingsProvider><Systems/></SettingsProvider>}/>
+                        <Route path="/active" element={<ActiveIncidents/>}/>
                     </Routes>
                 </main>
             </div>
