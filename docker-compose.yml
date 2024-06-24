@@ -1,0 +1,10 @@
+version: "2"
+services:
+  trgui:
+    container_name: trgui
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+      - 8899:8899
