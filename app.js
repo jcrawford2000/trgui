@@ -32,15 +32,16 @@ app.use(express.json({extended: false}));
     Default response for a get to / is our Hello World message
     Assign a route handler for requests to /api/settings
 */
+//TODO: Replace Hello World with 404 - nothing should be at the root
 app.get('/', (req, res) => { res.send('Hello World')});
 app.use('/api/settings', settings);
 
 // Now that we have everything setup, start the server
 app.listen(port, () => console.log(`Server is running on port ${port}`));
 
-console.log('Starting WebSocket');
 
 // Create a WebSocket Server
+console.log('Starting WebSocket');
 const wss = new WebSocket.Server({ port: 8899, host: '0.0.0.0' });
 
 const clients = new Set();

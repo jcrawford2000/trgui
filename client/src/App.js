@@ -12,7 +12,8 @@ import ActiveIncidents from './components/ActiveIncidents';
 
 //Main App Component
 function App() {
-    const webSocketURL = 'ws:192.168.0.36:8899';
+    //TODO: Make this a setting
+    const webSocketURL = 'ws:172.16.0.7:8899';
 
     return (
        <>
